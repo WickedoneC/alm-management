@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Data
+data/real/
+*.csv
+*.xlsx
+*.parquet
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Environment
+.env
+.env.local
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# MyPy type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+logs/
+
+# Mac
+.AppleDouble
+.LSOverride
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+
+# Large data files (if any)
+*.h5
+*.hdf5
+*.pickle
+*.pkl
+
+# Credentials (extra safety)
+credentials.json
+secrets.yaml
+*.pem
+*.key
