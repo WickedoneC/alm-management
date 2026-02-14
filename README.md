@@ -52,6 +52,62 @@ pytest tests/ -v  # 165 tests should pass
 
 ## Quick Start
 
+## Analysis Notebooks
+
+Jupyter notebooks demonstrating the various calculations:
+
+### Notebook 1: Duration Analysis Demo
+**Location:** `notebooks/01_duration_analysis_demo.ipynb`
+
+Analyzes a synthetic 5-bond portfolio (2Y, 5Y, 10Y, 30Y Treasury + 5Y Corporate) calculating:
+- Macaulay Duration (weighted average time to cash flows)
+- Modified Duration (price sensitivity per 1% yield change)
+- Convexity (second-order price sensitivity)
+- DV01 (dollar value of 1 basis point move)
+
+**Key Insights:**
+- 5Y Corporate bond has lower duration (4.32) than 5Y Treasury (4.49) due to higher coupon
+- Duration increases with maturity but at decreasing rate
+- Convexity provides cushion against adverse rate moves
+
+**Visualizations:** Bar charts, scatter plots, styled summary tables
+
+---
+
+### Notebook 2: Yield Curve Scenario Analysis
+**Location:** `notebooks/02_yield_curve_scenarios.ipynb`
+
+Real-time analysis of U.S. Treasury yield curves using FRED market data:
+- Fetches current yields across 11 maturities (1M through 30Y)
+- Constructs interpolated yield curve
+- Calculates forward rates (1y1y, 5y5y, 10y10y) revealing market expectations
+- Fits Nelson-Siegel parametric model
+- Runs 5 interest rate scenarios:
+  - Current market conditions
+  - +50bp parallel shift (Fed tightening)
+  - -50bp parallel shift (Fed easing)
+  - Steepening scenario (economic expansion)
+  - Flattening scenario (recession fears)
+
+**Current Market Insights (as of latest data):**
+- Curve shape: STEEP (62bp 2s10s spread)
+- Market expects rates to rise (5y5y forward: 4.51% vs 10Y spot: 4.09%)
+- Normal upward-sloping curve indicates healthy economic expectations
+
+**Visualizations:** Yield curve plots, scenario overlays, spread analysis
+
+---
+
+### Notebook 3: Integrated Portfolio Analysis *(Coming Next)*
+**Location:** `notebooks/03_integrated_analysis.ipynb` *(Planned)*
+
+Combines duration analytics with yield curve scenarios for complete portfolio risk assessment:
+- Apply scenarios to bond portfolio from Notebook 1
+- Calculate P&L impacts using duration and convexity
+- Demonstrate hedging strategies (duration matching, key rate hedging)
+- Show barbell vs bullet positioning analysis
+
+
 ### Duration Analysis
 ```python
 from models.duration.duration_calculator import DurationCalculator
