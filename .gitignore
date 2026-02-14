@@ -46,6 +46,8 @@ dmypy.json
 # Logs
 *.log
 logs/
+context/
+CLAUDE.md
 
 # Mac
 .AppleDouble
