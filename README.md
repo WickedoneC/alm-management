@@ -223,13 +223,3 @@ pytest tests/ --cov=models --cov-report=html
 - Yield curve scenarios with FRED market data
 - Combined portfolio risk assessment
 
-## Technology
-
-- **NumPy**: Numerical computing
-- **SciPy**: Optimization algorithms
-- **Pytest**: Testing framework
-- **Python 3.11**: Type hints and modern syntax
-
-## Documentation
-
-See `docs/logs/PROJECT_LOG.md` for detailed development history and architectural decisions.
