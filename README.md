@@ -98,14 +98,40 @@ Real-time analysis of U.S. Treasury yield curves using FRED market data:
 
 ---
 
-### Notebook 3: Integrated Portfolio Analysis *(Coming Next)*
-**Location:** `notebooks/03_integrated_analysis.ipynb` *(Planned)*
+### Notebook 3: Integrated Portfolio Analysis 
+**Location:** `notebooks/03_integrated_analysis.ipynb` 
 
 Combines duration analytics with yield curve scenarios for complete portfolio risk assessment:
-- Apply scenarios to bond portfolio from Notebook 1
-- Calculate P&L impacts using duration and convexity
-- Demonstrate hedging strategies (duration matching, key rate hedging)
-- Show barbell vs bullet positioning analysis
+**Portfolio Composition:**
+- 5-bond portfolio: 2Y, 5Y, 10Y, 30Y Treasury + 5Y Corporate
+- Total value: ~$5,000
+- Weighted average duration: 6.8 years
+- Key concentration: 40% in 5Y sector
+
+**Analysis Components:**
+1. **Portfolio Summary** - Aggregate duration, convexity, DV01, KRD profile
+2. **Scenario P&L Analysis** - Apply 5 yield curve scenarios to calculate portfolio impact
+3. **Key Rate Duration Exposure** - Identify concentration risks by maturity
+4. **Hedging Strategies** - Duration matching, KRD hedging approaches
+5. **Stress Testing** - Extreme scenarios (+200bp shock, inversions)
+6. **Recommendations** - Actionable portfolio management insights
+
+**Scenario Results (on $5,028 portfolio):**
+- +50bp parallel shock: -$171.65 loss (-3.4%)
+- -50bp parallel drop: +$184.52 gain (+3.7%)
+- Steepening: -$17.78 loss (vulnerable to curve moves)
+- Flattening: +$18.17 gain (benefits from flattening)
+
+**Key Insights:**
+- Positive convexity provides $13 asymmetric benefit on ±50bp moves
+- 30Y sector has highest sensitivity ($78-87 P&L range)
+- 5Y concentration (40%) creates intermediate curve vulnerability
+- Portfolio positioned for stable/falling rate environment
+
+**Visualizations:**
+- KRD exposure bar chart by maturity bucket
+- Scenario P&L with color-coded gains/losses
+- P&L contribution heatmap (maturity × scenario)
 
 
 ### Duration Analysis
