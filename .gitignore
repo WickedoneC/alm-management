@@ -13,7 +13,6 @@ build/
 
 # Data
 data/real/
-*.csv
 *.xlsx
 *.parquet
 
@@ -45,8 +44,9 @@ dmypy.json
 
 # Logs
 *.log
-logs/
-context/
+
+# Development context (internal notes, not for public repo)
+docs/context/
 CLAUDE.md
 
 # Mac

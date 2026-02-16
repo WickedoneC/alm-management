@@ -36,7 +36,7 @@ Built for buy-side portfolio managers, risk analysts, and quantitative researche
 ## Installation
 ```bash
 # Clone and setup
-git clone https://github.com/YOUR-USERNAME/alm-management.git
+git clone https://github.com/WickedoneC/alm-management.git
 cd alm-management
 
 # Create environment
@@ -47,10 +47,33 @@ micromamba activate alm-management
 pip install -r requirements.txt
 
 # Verify installation
-pytest tests/ -v  # 165 tests should pass
+pytest tests/ -v  # 102 tests should pass
 ```
 
 ## Quick Start
+
+```python
+from models.duration.duration_calculator import DurationCalculator
+from models.interest_rate.yield_curve import YieldCurve
+
+# Calculate duration for a 5-year Treasury bond
+calc = DurationCalculator()
+result = calc.calculate_all_durations(
+    cash_flows=[25, 25, 25, 25, 25, 25, 25, 25, 25, 1025],
+    times=[0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0],
+    ytm=0.04
+)
+print(f"Modified Duration: {result.modified_duration:.2f} years")
+print(f"Convexity: {result.convexity:.2f}")
+
+# Build a yield curve and run scenarios
+curve = YieldCurve.from_spot_rates(
+    tenors=[0.25, 0.5, 1, 2, 5, 10, 30],
+    rates=[0.045, 0.044, 0.043, 0.041, 0.040, 0.042, 0.045]
+)
+shocked = curve.parallel_shift(50)  # +50bp rate shock
+print(f"10Y spot: {curve.spot_rate(10):.2%} → {shocked.spot_rate(10):.2%}")
+```
 
 ## Analysis Notebooks
 
@@ -134,58 +157,25 @@ Combines duration analytics with yield curve scenarios for complete portfolio ri
 - P&L contribution heatmap (maturity × scenario)
 
 
-### Duration Analysis
-```python
-from models.duration.duration_calculator import DurationCalculator
-
-calc = DurationCalculator()
-
-# 5-year bond: $1000 face, 5% coupon, annual payments
-cash_flows = [50, 50, 50, 50, 1050]
-times = [1.0, 2.0, 3.0, 4.0, 5.0]
-
-result = calc.calculate_all_durations(
-    cash_flows=cash_flows,
-    times=times,
-    ytm=0.05
-)
-
-print(f"Modified Duration: {result.modified_duration:.4f}")
-print(f"Convexity: {result.convexity:.4f}")
-print(f"DV01: ${result.dollar_duration/100:.4f}")
-```
-
-### Yield Curve & Scenarios
-```python
-from models.interest_rate.yield_curve import YieldCurve
-
-# Build curve from market data
-tenors = [0.25, 0.5, 1, 2, 3, 5, 7, 10, 20, 30]
-rates = [0.052, 0.051, 0.0495, 0.047, 0.0455, 0.044, 0.0435, 0.043, 0.0435, 0.044]
-curve = YieldCurve.from_spot_rates(tenors=tenors, rates=rates)
-
-# Run scenarios
-parallel_up = curve.parallel_shift(50)  # +50bp
-steepened = curve.steepen(pivot_tenor=5, amount=25)
-
-print(f"Original 10Y: {curve.spot_rate(10):.4%}")
-print(f"Shifted 10Y: {parallel_up.spot_rate(10):.4%}")
-```
-
 ## Project Structure
 ```
 alm-management/
 ├── models/
 │   ├── duration/
-│   │   └── duration_calculator.py    # Duration metrics
+│   │   └── duration_calculator.py     # Duration metrics engine
 │   └── interest_rate/
-│       └── yield_curve.py             # Yield curve models
+│       └── yield_curve.py              # Yield curve models
 ├── tests/
-│   └── unit/                          # 165 unit tests
+│   └── unit/                           # 102 unit tests
+│       ├── test_duration_calculator.py  # 39 duration tests
+│       └── test_yield_curve.py          # 63 yield curve tests
+├── notebooks/
+│   ├── 01_duration_analysis_demo.ipynb  # Synthetic portfolio analysis
+│   ├── 02_yield_curve_scenarios.ipynb   # FRED data + scenarios
+│   └── 03_integrated_analysis.ipynb     # Combined risk assessment
 ├── docs/
 │   └── logs/
-│       └── PROJECT_LOG.md             # Development log
-├── notebooks/                         # Analysis notebooks
+│       └── PROJECT_LOG.md              # Development log
 ├── requirements.txt
 └── README.md
 ```
@@ -217,28 +207,21 @@ pytest tests/ --cov=models --cov-report=html
 
 ## Development Roadmap
 
-**Phase 1** ✅ Duration Models (Complete)
+**Phase 1** ✅ Duration Models
 - Macaulay, Modified, Key Rate Durations
 - Convexity and DV01
 - 39 unit tests
 
-**Phase 2** ✅ Yield Curve Framework (Complete)
+**Phase 2** ✅ Yield Curve Framework
 - Spot/forward rate calculations
 - Nelson-Siegel fitting
 - Scenario analysis
-- 102 unit tests
+- 63 unit tests (102 total)
 
-**Phase 3** (Next) Cash Flow Projection Engine
-- Scenario-based projections
-- Waterfall analysis
-
-**Phase 4** Liquidity Analysis Dashboard
-- Gap analysis
-- Interactive visualizations
-
-**Phase 5** Regulatory Reporting
-- Basel III IRRBB
-- LCR/NSFR calculations
+**Phase 3** ✅ Integrated Analysis Notebooks
+- Duration analysis with synthetic portfolio
+- Yield curve scenarios with FRED market data
+- Combined portfolio risk assessment
 
 ## Technology
 
